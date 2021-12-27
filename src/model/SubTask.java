@@ -1,6 +1,6 @@
 package model;
 
-public class SubTask extends Task{
+public class SubTask extends Task {
     boolean isEpic;
     int epicID;
 
@@ -10,18 +10,18 @@ public class SubTask extends Task{
 
     public SubTask(String name, String details, int id) {
         super(name, details, id);
-        isEpic=false;
+        isEpic = false;
     }
 
     public SubTask(String name, String details, int id, int epicID) {
         super(name, details, id);
-        isEpic=false;
-        this.epicID=epicID;
+        isEpic = false;
+        this.epicID = epicID;
     }
 
-    public SubTask(SubTask subTask){
+    public SubTask(SubTask subTask) {
         super(subTask);
-        this.epicID= subTask.id;
+        this.epicID = subTask.id;
     }
 
     public int getEpicID() {

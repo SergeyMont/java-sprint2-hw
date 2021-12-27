@@ -4,18 +4,18 @@ public class EpicTask extends Task {
 
     boolean isEpic;
 
-    public EpicTask(){
+    public EpicTask() {
         super();
     }
 
     public EpicTask(String name, String details, int id) {
         super(name, details, id);
-        isEpic=true;
+        isEpic = true;
     }
 
-    public EpicTask(EpicTask epic){
+    public EpicTask(EpicTask epic) {
         super(epic);
-        this.isEpic= epic.isEpic;
+        this.isEpic = epic.isEpic;
     }
 
     @Override

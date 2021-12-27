@@ -7,11 +7,12 @@ public class Task {
     String details;
     int id;
     Status status;
-    public Task(){
-        name="";
-        details="";
-        id=0;
-        status=NEW;
+
+    public Task() {
+        name = "";
+        details = "";
+        id = 0;
+        status = NEW;
 
     }
 
@@ -29,7 +30,7 @@ public class Task {
         this.status = NEW;
     }
 
-    public Task(String name, String details, int id, Status status){
+    public Task(String name, String details, int id, Status status) {
         this.name = name;
         this.details = details;
         this.id = id;
@@ -59,8 +60,10 @@ public class Task {
         return status;
     }
 
-    public boolean compareClass(Object obj){
-        if (this.getClass()==obj.getClass()){ return true;}
+    public boolean compareClass(Object obj) {
+        if (this.getClass() == obj.getClass()) {
+            return true;
+        }
         return false;
     }
 

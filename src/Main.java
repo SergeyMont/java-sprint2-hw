@@ -57,7 +57,7 @@ public class Main {
                     System.out.println("Введите id для удаления");
                     int id2 = scanner.nextInt();
                     taskManager.removeById(id2);
-                    System.out.println("Задача с id "+id2+" удалена");
+                    System.out.println("Задача с id " + id2 + " удалена");
                     break;
                 case 8:
                     taskManager.removeAll();
