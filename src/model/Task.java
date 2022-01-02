@@ -3,17 +3,16 @@ package model;
 import static model.Status.NEW;
 
 public class Task {
-    String name;
-    String details;
-    int id;
-    Status status;
+    private String name;
+    private String details;
+    final private int id;
+    private Status status;
 
     public Task() {
         name = "";
         details = "";
         id = 0;
         status = NEW;
-
     }
 
     public Task(String name, int id) {
@@ -61,10 +60,7 @@ public class Task {
     }
 
     public boolean compareClass(Object obj) {
-        if (this.getClass() == obj.getClass()) {
-            return true;
-        }
-        return false;
+        return this.getClass() == obj.getClass();
     }
 
     public void setStatus(Status status) {

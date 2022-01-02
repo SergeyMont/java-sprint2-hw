@@ -1,3 +1,4 @@
+import controller.TaskManager;
 import model.EpicTask;
 import model.SubTask;
 import model.Task;
@@ -56,15 +57,15 @@ public class Main {
                 case 7:
                     System.out.println("Введите id для удаления");
                     int id2 = scanner.nextInt();
-                    taskManager.removeById(id2);
+                    taskManager.removeTaskById(id2);
                     System.out.println("Задача с id " + id2 + " удалена");
                     break;
                 case 8:
                     taskManager.removeAll();
                     System.out.println("Все задачи удалены");
                     break;
-                case 9:
-                    taskManager.refreshEpicStatus();
+                case 0:
+                    return;
             }
         }
     }

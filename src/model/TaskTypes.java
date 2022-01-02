@@ -1,7 +1,7 @@
 package model;
 
 public enum TaskTypes {
-    ЗАДАЧА,
-    ЭПИК,
-    ПОДЗАДАЧА
+    TASK,
+    EPIC_TASK,
+    SUBTASK
 }

@@ -5,13 +5,13 @@ public class TaskFactory {
 
         Task task = null;
         switch (type) {
-            case ЭПИК:
+            case EPIC_TASK:
                 task = new EpicTask(name, details, id);
                 break;
-            case ЗАДАЧА:
+            case TASK:
                 task = new Task(name, details, id);
                 break;
-            case ПОДЗАДАЧА:
+            case SUBTASK:
                 task = new SubTask(name, details, id);
                 break;
             default:

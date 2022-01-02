@@ -1,8 +1,10 @@
 package model;
 
+import java.util.ArrayList;
+
 public class EpicTask extends Task {
 
-    boolean isEpic;
+    private ArrayList<SubTask> subTasks;
 
     public EpicTask() {
         super();
@@ -10,22 +12,24 @@ public class EpicTask extends Task {
 
     public EpicTask(String name, String details, int id) {
         super(name, details, id);
-        isEpic = true;
+        subTasks = new ArrayList<>();
     }
 
     public EpicTask(EpicTask epic) {
         super(epic);
-        this.isEpic = epic.isEpic;
+    }
+
+    public ArrayList<SubTask> getSubTasks() {
+        return subTasks;
     }
 
     @Override
     public String toString() {
         return "EpicTask{" +
-                "isEpic=" + isEpic +
-                ", name='" + name + '\'' +
-                ", details='" + details + '\'' +
-                ", id=" + id +
-                ", status=" + status +
+                " name='" + super.getName() + '\'' +
+                ", details='" + super.getDetails() + '\'' +
+                ", id=" + super.getId() +
+                ", status=" + super.getStatus() +
                 '}';
     }
 }

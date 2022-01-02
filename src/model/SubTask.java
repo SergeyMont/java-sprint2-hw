@@ -1,7 +1,6 @@
 package model;
 
 public class SubTask extends Task {
-    boolean isEpic;
     int epicID;
 
     public SubTask() {
@@ -10,18 +9,16 @@ public class SubTask extends Task {
 
     public SubTask(String name, String details, int id) {
         super(name, details, id);
-        isEpic = false;
     }
 
     public SubTask(String name, String details, int id, int epicID) {
         super(name, details, id);
-        isEpic = false;
         this.epicID = epicID;
     }
 
     public SubTask(SubTask subTask) {
         super(subTask);
-        this.epicID = subTask.id;
+        this.epicID = subTask.getId();
     }
 
     public int getEpicID() {
@@ -31,12 +28,11 @@ public class SubTask extends Task {
     @Override
     public String toString() {
         return "SubTask{" +
-                "isEpic=" + isEpic +
-                ", epicID=" + epicID +
-                ", name='" + name + '\'' +
-                ", details='" + details + '\'' +
-                ", id=" + id +
-                ", status=" + status +
+                " epicID=" + epicID +
+                ", name='" + super.getName() + '\'' +
+                ", details='" + super.getDetails() + '\'' +
+                ", id=" + super.getId() +
+                ", status=" + super.getStatus() +
                 '}';
     }
 }
