@@ -1,7 +1,6 @@
 package controller;
 
 import model.EpicTask;
-import model.Status;
 import model.SubTask;
 import model.Task;
 
@@ -34,24 +33,15 @@ public class TaskManager {
 
     //    Получение задачи любого типа по идентификатору.
     public Task findTaskById(int id) {
-        if (tasks.containsKey(id)) {
-            return tasks.get(id);
-        }
-        return null;
+        return tasks.get(id);
     }
 
     public SubTask findSubtaskById(int id) {
-        if (subTasks.containsKey(id)) {
-            return subTasks.get(id);
-        }
-        return null;
+        return subTasks.get(id);
     }
 
     public EpicTask findEpicTaskById(int id) {
-        if (epicTasks.containsKey(id)) {
-            return epicTasks.get(id);
-        }
-        return null;
+        return epicTasks.get(id);
     }
 
     //    Добавление новой задачи, эпика и подзадачи. Сам объект должен передаваться в качестве
@@ -72,7 +62,6 @@ public class TaskManager {
             sub = (SubTask) task;
             subTasks.put(task.getId(), sub);
             epicTasks.get(sub.getEpicID()).getSubTasks().add(sub);
-            refreshEpicStatus();
         }
     }
 
@@ -96,7 +85,6 @@ public class TaskManager {
             subTasks.replace(task.getId(), sub);
             int index = epicTasks.get(sub.getEpicID()).getSubTasks().indexOf(sub);
             epicTasks.get(sub.getEpicID()).getSubTasks().set(index, sub);
-            refreshEpicStatus();
         }
     }
 
@@ -128,31 +116,6 @@ public class TaskManager {
             subTasks.remove(id);
         } else {
             System.out.println("Такой задачи с ID: " + id + " не существует");
-        }
-    }
-
-    public void refreshEpicStatus() {
-        for (EpicTask ep : epicTasks.values()) {
-            if (ep.getSubTasks().isEmpty()) {
-                ep.setStatus(Status.NEW);
-            } else {
-                boolean isNewStatus = false;
-                boolean isDoneStatus = false;
-                for (SubTask sub : ep.getSubTasks()) {
-                    if (sub.getStatus() == Status.NEW) {
-                        isNewStatus = true;
-                    } else if (sub.getStatus() == Status.DONE) {
-                        isDoneStatus = true;
-                    }
-                }
-                if (isNewStatus && !isDoneStatus) {
-                    ep.setStatus(Status.NEW);
-                } else if (isDoneStatus && !isNewStatus) {
-                    ep.setStatus(Status.DONE);
-                } else {
-                    ep.setStatus(Status.IN_PROGRESS);
-                }
-            }
         }
     }
 }

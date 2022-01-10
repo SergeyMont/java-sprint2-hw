@@ -24,6 +24,30 @@ public class EpicTask extends Task {
     }
 
     @Override
+    public Status getStatus() {
+        if (subTasks.isEmpty()) {
+            return Status.NEW;
+        } else {
+            boolean isNewStatus = false;
+            boolean isDoneStatus = false;
+            for (SubTask sub : subTasks) {
+                if (sub.getStatus() == Status.NEW) {
+                    isNewStatus = true;
+                } else if (sub.getStatus() == Status.DONE) {
+                    isDoneStatus = true;
+                }
+            }
+            if (isNewStatus && !isDoneStatus) {
+                return Status.NEW;
+            } else if (isDoneStatus && !isNewStatus) {
+                return Status.DONE;
+            } else {
+                return Status.IN_PROGRESS;
+            }
+        }
+    }
+
+    @Override
     public String toString() {
         return "EpicTask{" +
                 " name='" + super.getName() + '\'' +
