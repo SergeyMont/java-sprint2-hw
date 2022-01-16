@@ -1,3 +1,4 @@
+import controller.Managers;
 import controller.TaskManager;
 import model.EpicTask;
 import model.SubTask;
@@ -8,7 +9,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
         EpicTask epic = new EpicTask("Покормить кошку", "Кошка ест только Sheba", 1);
         while (true) {
             Menu.printMenu();
@@ -25,9 +26,15 @@ public class Main {
                     System.out.println(taskManager.findTaskByEpic(epic).toString());
                     break;
                 case 4:
-                    System.out.println("Введите id для поиска");
+                    System.out.println("Введите id Task для поиска");
                     int id = scanner.nextInt();
                     System.out.println(taskManager.findTaskById(id).toString());
+                    System.out.println("Введите id SubTask для поиска");
+                    int id2 = scanner.nextInt();
+                    System.out.println(taskManager.findSubtaskById(id2).toString());
+                    System.out.println("Введите id EpicTask для поиска");
+                    int id3 = scanner.nextInt();
+                    System.out.println(taskManager.findEpicTaskById(id3).toString());
                     break;
                 case 5:
                     Task task = new Task("Помыть посуду", "Загрузить посудомойку", 2);
@@ -56,13 +63,16 @@ public class Main {
                     break;
                 case 7:
                     System.out.println("Введите id для удаления");
-                    int id2 = scanner.nextInt();
-                    taskManager.removeTaskById(id2);
-                    System.out.println("Задача с id " + id2 + " удалена");
+                    int id4 = scanner.nextInt();
+                    taskManager.removeTaskById(id4);
+                    System.out.println("Задача с id " + id4 + " удалена");
                     break;
                 case 8:
                     taskManager.removeAll();
                     System.out.println("Все задачи удалены");
+                    break;
+                case 9:
+                    System.out.println(taskManager.getHistory().toString());
                     break;
                 case 0:
                     return;
