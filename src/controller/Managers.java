@@ -1,7 +1,7 @@
 package controller;
 
 public class Managers {
-    public static InMemoryTaskManager getDefault() {
+    public static TotalManager getDefault() {
         return new InMemoryTaskManager();
     }
 }

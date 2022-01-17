@@ -61,10 +61,6 @@ public class Task {
         return status;
     }
 
-    public boolean compareClass(Object obj) {
-        return this.getClass() == obj.getClass();
-    }
-
     public void setStatus(Status status) {
         this.status = status;
     }

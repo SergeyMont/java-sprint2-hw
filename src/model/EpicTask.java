@@ -28,18 +28,21 @@ public class EpicTask extends Task {
         if (subTasks.isEmpty()) {
             return Status.NEW;
         } else {
-            boolean isNewStatus = false;
-            boolean isDoneStatus = false;
+            boolean isNewStatus = true;
+            boolean isDoneStatus = true;
             for (SubTask sub : subTasks) {
-                if (sub.getStatus() == Status.NEW) {
-                    isNewStatus = true;
-                } else if (sub.getStatus() == Status.DONE) {
-                    isDoneStatus = true;
+                if (sub.getStatus() != Status.NEW) {
+                    isNewStatus = false;
+                } else if (sub.getStatus() != Status.DONE) {
+                    isDoneStatus = false;
+                } else {
+                    isDoneStatus = false;
+                    isNewStatus = false;
                 }
             }
-            if (isNewStatus && !isDoneStatus) {
+            if (isNewStatus) {
                 return Status.NEW;
-            } else if (isDoneStatus && !isNewStatus) {
+            } else if (isDoneStatus) {
                 return Status.DONE;
             } else {
                 return Status.IN_PROGRESS;

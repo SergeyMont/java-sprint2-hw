@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TaskMemoryManager implements TaskController {
+public class TaskMemoryManager implements TaskManager {
     private HashMap<Integer, Task> tasks = new HashMap<>();
 
     @Override

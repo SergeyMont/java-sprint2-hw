@@ -1,6 +1,7 @@
 import controller.Managers;
-import controller.TaskManager;
+import controller.TotalManager;
 import model.EpicTask;
+import model.Status;
 import model.SubTask;
 import model.Task;
 
@@ -9,7 +10,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        TaskManager taskManager = Managers.getDefault();
+        TotalManager taskManager = Managers.getDefault();
         EpicTask epic = new EpicTask("Покормить кошку", "Кошка ест только Sheba", 1);
         while (true) {
             Menu.printMenu();
@@ -49,6 +50,10 @@ public class Main {
                     taskManager.addNewTask(sub1);
                     taskManager.addNewTask(sub2);
                     taskManager.addNewTask(sub3);
+                    taskManager.findSubtaskById(4).setStatus(Status.NEW);
+                    taskManager.findSubtaskById(5).setStatus(Status.NEW);
+                    taskManager.findSubtaskById(6).setStatus(Status.IN_PROGRESS);
+                    System.out.println(taskManager.findTaskById(3).getStatus());
                     break;
                 case 6:
                     Task task2 = new Task("Помыть посуду до блеска", "Загрузить посудомойку " +

@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class InMemoryTaskManager implements TaskManager {
-    TaskController epicTaskManager = new EpicTaskMemoryManager();
-    TaskController subTaskManager = new SubTaskMemoryManager();
-    TaskController taskManager = new TaskMemoryManager();
+public class InMemoryTaskManager implements TotalManager {
+    private TaskManager epicTaskManager = new EpicTaskMemoryManager();
+    private TaskManager subTaskManager = new SubTaskMemoryManager();
+    private TaskManager taskManager = new TaskMemoryManager();
 
 
     private List<Task> history = new LinkedList<>();
@@ -39,7 +39,9 @@ public class InMemoryTaskManager implements TaskManager {
     //    Получение задачи любого типа по идентификатору.
     @Override
     public Task findTaskById(int id) {
-        return taskManager.getTaskById(id);
+        final Task task = taskManager.getTaskById(id);
+        addHistory(task);
+        return task;
     }
 
     @Override
@@ -70,19 +72,17 @@ public class InMemoryTaskManager implements TaskManager {
     //    параметра.
     @Override
     public void addNewTask(Task task) {
-        Task t = new Task();
-        if (t.compareClass(task)) {
+        if (task instanceof Task) {
             taskManager.addNewTask(task);
         }
 
-        EpicTask epic = new EpicTask();
-        if (epic.compareClass(task)) {
-            epicTaskManager.addNewTask((EpicTask) task);
+        if (task instanceof EpicTask) {
+            epicTaskManager.addNewTask(task);
         }
 
-        SubTask sub = new SubTask();
-        if (sub.compareClass(task)) {
-            sub = (SubTask) task;
+
+        if (task instanceof SubTask) {
+            SubTask sub = (SubTask) task;
             subTaskManager.addNewTask(sub);
             EpicTask ep = (EpicTask) epicTaskManager.getTaskById(sub.getEpicID());
             ep.getSubTasks().add(sub);
@@ -93,20 +93,17 @@ public class InMemoryTaskManager implements TaskManager {
     //    параметра.
     @Override
     public void updateTask(Task task) {
-        Task t = new Task();
-        if (t.compareClass(task)) {
+
+        if (task instanceof Task) {
             taskManager.updateTask(task);
         }
 
-        EpicTask epic = new EpicTask();
-        if (epic.compareClass(task)) {
-            epic = (EpicTask) task;
-            epicTaskManager.updateTask(epic);
+        if (task instanceof EpicTask) {
+            epicTaskManager.updateTask(task);
         }
 
-        SubTask sub = new SubTask();
-        if (sub.compareClass(task)) {
-            sub = (SubTask) task;
+        if (task instanceof SubTask) {
+            SubTask sub = (SubTask) task;
             subTaskManager.updateTask(sub);
             EpicTask ep = (EpicTask) epicTaskManager.getTaskById(sub.getEpicID());
             int index = ep.getSubTasks().indexOf(sub);
@@ -138,7 +135,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List getHistory() {
+    public List<Task> getHistory() {
         return history;
     }
 }

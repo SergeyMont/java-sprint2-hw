@@ -1,18 +1,17 @@
 package controller;
 
 import model.EpicTask;
-import model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class EpicTaskMemoryManager implements TaskController {
+public class EpicTaskMemoryManager implements TaskManager<EpicTask> {
     private HashMap<Integer, EpicTask> epicTasks = new HashMap<>();
 
     @Override
-    public List<Task> findAllTask() {
-        List<Task> allEpic = new ArrayList<>(epicTasks.values());
+    public List<EpicTask> findAllTask() {
+        List<EpicTask> allEpic = new ArrayList<>(epicTasks.values());
         return allEpic;
     }
 
@@ -22,13 +21,13 @@ public class EpicTaskMemoryManager implements TaskController {
     }
 
     @Override
-    public void addNewTask(Task epic) {
-        epicTasks.put(epic.getId(), (EpicTask) epic);
+    public void addNewTask(EpicTask epic) {
+        epicTasks.put(epic.getId(), epic);
     }
 
     @Override
-    public void updateTask(Task epic) {
-        epicTasks.replace(epic.getId(), (EpicTask) epic);
+    public void updateTask(EpicTask epic) {
+        epicTasks.replace(epic.getId(), epic);
     }
 
     @Override
