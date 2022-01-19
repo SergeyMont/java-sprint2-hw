@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TaskMemoryManager implements TaskManager {
+public class TaskMemoryManager implements TaskManager<Task> {
     private HashMap<Integer, Task> tasks = new HashMap<>();
 
     @Override
-    public List findAllTask() {
+    public List<Task> findAllTask() {
         List<Task> allTasks = new ArrayList<>(tasks.values());
         return allTasks;
     }

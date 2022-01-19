@@ -10,7 +10,7 @@ public class SubTaskMemoryManager implements TaskManager<SubTask> {
     private HashMap<Integer, SubTask> subTasks = new HashMap<>();
 
     @Override
-    public List findAllTask() {
+    public List<SubTask> findAllTask() {
         List<SubTask> allSub = new ArrayList<>(subTasks.values());
         return allSub;
     }

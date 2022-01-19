@@ -50,9 +50,9 @@ public class Main {
                     taskManager.addNewTask(sub1);
                     taskManager.addNewTask(sub2);
                     taskManager.addNewTask(sub3);
-                    taskManager.findSubtaskById(4).setStatus(Status.NEW);
-                    taskManager.findSubtaskById(5).setStatus(Status.NEW);
-                    taskManager.findSubtaskById(6).setStatus(Status.IN_PROGRESS);
+                    taskManager.findSubtaskById(4).setStatus(Status.DONE);
+                    taskManager.findSubtaskById(5).setStatus(Status.IN_PROGRESS);
+                    taskManager.findSubtaskById(6).setStatus(Status.NEW);
                     System.out.println(taskManager.findTaskById(3).getStatus());
                     break;
                 case 6:

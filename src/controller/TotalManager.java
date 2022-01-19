@@ -11,7 +11,7 @@ public interface TotalManager {
     List<Task> findAllTasks();
 
     //    Получение списка всех эпиков.
-    List<Task> findAllEpicTask();
+    List<EpicTask> findAllEpicTask();
 
     //    Получение списка всех подзадач определённого эпика.
     List<SubTask> findTaskByEpic(EpicTask epic);

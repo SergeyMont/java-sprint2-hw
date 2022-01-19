@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EpicTask extends Task {
 
@@ -19,7 +20,7 @@ public class EpicTask extends Task {
         super(epic);
     }
 
-    public ArrayList<SubTask> getSubTasks() {
+    public List<SubTask> getSubTasks() {
         return subTasks;
     }
 
@@ -28,21 +29,20 @@ public class EpicTask extends Task {
         if (subTasks.isEmpty()) {
             return Status.NEW;
         } else {
-            boolean isNewStatus = true;
-            boolean isDoneStatus = true;
+            int countNewStatus = 0;
+            int countDoneStatus = 0;
             for (SubTask sub : subTasks) {
-                if (sub.getStatus() != Status.NEW) {
-                    isNewStatus = false;
-                } else if (sub.getStatus() != Status.DONE) {
-                    isDoneStatus = false;
-                } else {
-                    isDoneStatus = false;
-                    isNewStatus = false;
+                switch (sub.getStatus()) {
+                    case NEW:
+                        countNewStatus++;
+                        break;
+                    case DONE:
+                        countDoneStatus++;
                 }
             }
-            if (isNewStatus) {
+            if (countNewStatus == subTasks.size()) {
                 return Status.NEW;
-            } else if (isDoneStatus) {
+            } else if (countDoneStatus == subTasks.size()) {
                 return Status.DONE;
             } else {
                 return Status.IN_PROGRESS;

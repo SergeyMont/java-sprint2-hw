@@ -9,9 +9,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryTaskManager implements TotalManager {
-    private TaskManager epicTaskManager = new EpicTaskMemoryManager();
-    private TaskManager subTaskManager = new SubTaskMemoryManager();
-    private TaskManager taskManager = new TaskMemoryManager();
+
+    private TaskManager<EpicTask> epicTaskManager = new EpicTaskMemoryManager();
+    private TaskManager<SubTask> subTaskManager = new SubTaskMemoryManager();
+    private TaskManager<Task> taskManager = new TaskMemoryManager();
 
 
     private List<Task> history = new LinkedList<>();
@@ -26,7 +27,7 @@ public class InMemoryTaskManager implements TotalManager {
 
     //    Получение списка всех эпиков.
     @Override
-    public List<Task> findAllEpicTask() {
+    public List<EpicTask> findAllEpicTask() {
         return epicTaskManager.findAllTask();
     }
 
@@ -46,14 +47,14 @@ public class InMemoryTaskManager implements TotalManager {
 
     @Override
     public SubTask findSubtaskById(int id) {
-        final SubTask sub = (SubTask) subTaskManager.getTaskById(id);
+        final SubTask sub = subTaskManager.getTaskById(id);
         addHistory(sub);
         return sub;
     }
 
     @Override
     public EpicTask findEpicTaskById(int id) {
-        final EpicTask epic = (EpicTask) epicTaskManager.getTaskById(id);
+        final EpicTask epic = epicTaskManager.getTaskById(id);
         addHistory(epic);
         return epic;
     }
@@ -77,14 +78,15 @@ public class InMemoryTaskManager implements TotalManager {
         }
 
         if (task instanceof EpicTask) {
-            epicTaskManager.addNewTask(task);
+            EpicTask epic = (EpicTask) task;
+            epicTaskManager.addNewTask(epic);
         }
 
 
         if (task instanceof SubTask) {
             SubTask sub = (SubTask) task;
             subTaskManager.addNewTask(sub);
-            EpicTask ep = (EpicTask) epicTaskManager.getTaskById(sub.getEpicID());
+            EpicTask ep = epicTaskManager.getTaskById(sub.getEpicID());
             ep.getSubTasks().add(sub);
         }
     }
@@ -99,13 +101,14 @@ public class InMemoryTaskManager implements TotalManager {
         }
 
         if (task instanceof EpicTask) {
-            epicTaskManager.updateTask(task);
+            EpicTask epic = (EpicTask) task;
+            epicTaskManager.updateTask(epic);
         }
 
         if (task instanceof SubTask) {
             SubTask sub = (SubTask) task;
             subTaskManager.updateTask(sub);
-            EpicTask ep = (EpicTask) epicTaskManager.getTaskById(sub.getEpicID());
+            EpicTask ep = epicTaskManager.getTaskById(sub.getEpicID());
             int index = ep.getSubTasks().indexOf(sub);
             ep.getSubTasks().set(index, sub);
         }
