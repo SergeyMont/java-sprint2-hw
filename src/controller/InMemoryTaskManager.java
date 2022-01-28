@@ -5,7 +5,6 @@ import model.SubTask;
 import model.Task;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryTaskManager implements TotalManager {
@@ -13,9 +12,8 @@ public class InMemoryTaskManager implements TotalManager {
     private TaskManager<EpicTask> epicTaskManager = new EpicTaskMemoryManager();
     private TaskManager<SubTask> subTaskManager = new SubTaskMemoryManager();
     private TaskManager<Task> taskManager = new TaskMemoryManager();
+    private HistoryManager historyManager = new InMemoryHistoryManager();
 
-
-    private List<Task> history = new LinkedList<>();
 
     //    Получение списка всех задач.
     @Override
@@ -41,33 +39,24 @@ public class InMemoryTaskManager implements TotalManager {
     @Override
     public Task findTaskById(int id) {
         final Task task = taskManager.getTaskById(id);
-        addHistory(task);
+        historyManager.add(task);
         return task;
     }
 
     @Override
     public SubTask findSubtaskById(int id) {
         final SubTask sub = subTaskManager.getTaskById(id);
-        addHistory(sub);
+        historyManager.add(sub);
         return sub;
     }
 
     @Override
     public EpicTask findEpicTaskById(int id) {
         final EpicTask epic = epicTaskManager.getTaskById(id);
-        addHistory(epic);
+        historyManager.add(epic);
         return epic;
     }
 
-    private void addHistory(Task task) {
-        if (task == null) {
-            return;
-        }
-        if (history.size() == 10) {
-            history.remove(0);
-        }
-        history.add(task);
-    }
 
     //    Добавление новой задачи, эпика и подзадачи. Сам объект должен передаваться в качестве
     //    параметра.
@@ -124,21 +113,31 @@ public class InMemoryTaskManager implements TotalManager {
 
     @Override
     public void removeTaskById(int id) {
+
         taskManager.removeTaskById(id);
+        historyManager.remove(id);
     }
 
     @Override
     public void removeEpicTaskByID(int id) {
+
+        List<SubTask> subTasks = epicTaskManager.getTaskById(id).getSubTasks();
+        for (SubTask sub : subTasks) {
+            historyManager.remove(sub.getId());
+        }
         epicTaskManager.removeTaskById(id);
+        historyManager.remove(id);
     }
 
     @Override
     public void removeSubTaskByID(int id) {
+
         subTaskManager.removeTaskById(id);
+        historyManager.remove(id);
     }
 
     @Override
     public List<Task> getHistory() {
-        return history;
+        return historyManager.getHistory();
     }
 }

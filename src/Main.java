@@ -77,6 +77,23 @@ public class Main {
                     System.out.println("Все задачи удалены");
                     break;
                 case 9:
+                    System.out.println("Вызываем 4 разных задачи");
+                    taskManager.findEpicTaskById(3);
+                    taskManager.findSubtaskById(4);
+                    taskManager.findSubtaskById(5);
+                    taskManager.findTaskById(2);
+                    System.out.println(taskManager.getHistory().toString());
+                    System.out.println("Вызываем повторно 2 разных задачи");
+                    taskManager.findEpicTaskById(3);
+                    taskManager.findEpicTaskById(3);
+                    taskManager.findTaskById(2);
+                    taskManager.findTaskById(2);
+                    System.out.println(taskManager.getHistory().toString());
+                    System.out.println("Удаляем задачу, которая есть в истории");
+                    taskManager.removeTaskById(2);
+                    System.out.println(taskManager.getHistory().toString());
+                    System.out.println("Удаляем эпик и его подзадачи");
+                    taskManager.removeEpicTaskByID(3);
                     System.out.println(taskManager.getHistory().toString());
                     break;
                 case 0:
