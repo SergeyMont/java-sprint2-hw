@@ -1,6 +1,6 @@
 package controller;
 
-public class MyNode<T> {
+class MyNode<T> {
     T task;
     MyNode<T> next;
     MyNode<T> prev;

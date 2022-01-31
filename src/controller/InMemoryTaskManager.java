@@ -9,9 +9,9 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TotalManager {
 
-    private TaskManager<EpicTask> epicTaskManager = new EpicTaskMemoryManager();
-    private TaskManager<SubTask> subTaskManager = new SubTaskMemoryManager();
-    private TaskManager<Task> taskManager = new TaskMemoryManager();
+    private TaskManager<EpicTask> epicTaskManager = new TaskMemoryManager<EpicTask>();
+    private TaskManager<SubTask> subTaskManager = new TaskMemoryManager<SubTask>();
+    private TaskManager<Task> taskManager = new TaskMemoryManager<Task>();
     private HistoryManager historyManager = new InMemoryHistoryManager();
 
 
@@ -62,7 +62,7 @@ public class InMemoryTaskManager implements TotalManager {
     //    параметра.
     @Override
     public void addNewTask(Task task) {
-        if (task instanceof Task) {
+        if (Task.class == task.getClass()) {
             taskManager.addNewTask(task);
         }
 
@@ -85,7 +85,7 @@ public class InMemoryTaskManager implements TotalManager {
     @Override
     public void updateTask(Task task) {
 
-        if (task instanceof Task) {
+        if (Task.class == task.getClass()) {
             taskManager.updateTask(task);
         }
 
@@ -109,6 +109,7 @@ public class InMemoryTaskManager implements TotalManager {
         taskManager.removeAll();
         epicTaskManager.removeAll();
         subTaskManager.removeAll();
+        historyManager.removeAll();
     }
 
     @Override

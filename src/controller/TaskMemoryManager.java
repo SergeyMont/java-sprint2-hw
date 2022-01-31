@@ -6,27 +6,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TaskMemoryManager implements TaskManager<Task> {
-    private HashMap<Integer, Task> tasks = new HashMap<>();
+public class TaskMemoryManager<T extends Task> implements TaskManager<T> {
+    private HashMap<Integer, T> tasks = new HashMap<>();
 
     @Override
-    public List<Task> findAllTask() {
-        List<Task> allTasks = new ArrayList<>(tasks.values());
+    public List<T> findAllTask() {
+        List<T> allTasks = new ArrayList<>(tasks.values());
         return allTasks;
     }
 
     @Override
-    public Task getTaskById(int id) {
+    public T getTaskById(int id) {
         return tasks.get(id);
     }
 
     @Override
-    public void addNewTask(Task task) {
+    public void addNewTask(T task) {
         tasks.put(task.getId(), task);
     }
 
     @Override
-    public void updateTask(Task task) {
+    public void updateTask(T task) {
         tasks.replace(task.getId(), task);
 
     }
@@ -38,6 +38,10 @@ public class TaskMemoryManager implements TaskManager<Task> {
 
     @Override
     public void removeTaskById(int id) {
-        tasks.remove(id);
+        if (tasks.containsKey(id)) {
+            tasks.remove(id);
+        } else {
+            System.out.println("Такой задачи с ID: " + id + " не существует");
+        }
     }
 }
