@@ -87,4 +87,11 @@ public class Task {
                 ", status=" + status +
                 '}';
     }
+
+    public String writeString() {
+        return id + "," + TaskTypes.TASK + "," +
+                name + ',' +
+                details + ',' +
+                status + ',';
+    }
 }

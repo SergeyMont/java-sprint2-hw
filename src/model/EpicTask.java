@@ -16,6 +16,11 @@ public class EpicTask extends Task {
         subTasks = new ArrayList<>();
     }
 
+    public EpicTask(String name, String details, int id, Status status) {
+        super(name, details, id);
+        subTasks = new ArrayList<>();
+    }
+
     public EpicTask(EpicTask epic) {
         super(epic);
     }
@@ -58,5 +63,13 @@ public class EpicTask extends Task {
                 ", id=" + super.getId() +
                 ", status=" + super.getStatus() +
                 '}';
+    }
+
+    @Override
+    public String writeString() {
+        return super.getId() + "," + TaskTypes.EPIC_TASK + "," +
+                super.getName() + ',' +
+                super.getDetails() + ',' +
+                super.getStatus() + ',';
     }
 }

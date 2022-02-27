@@ -1,9 +1,11 @@
+import controller.FileBackedTasksManager;
 import controller.Managers;
 import controller.TotalManager;
 import model.EpicTask;
 import model.Status;
 import model.SubTask;
 import model.Task;
+import resourses.FileManager;
 
 import java.util.Scanner;
 
@@ -41,9 +43,9 @@ public class Main {
                     Task task = new Task("Помыть посуду", "Загрузить посудомойку", 2);
                     EpicTask epic2 = new EpicTask("Сделать ремонт", "Выполнить ремонт до Нового " +
                             "года", 3);
-                    SubTask sub1 = new SubTask("Отшпаклевать стены", "Шпаклевка и шлифовка", 4, 3);
-                    SubTask sub2 = new SubTask("Положить ламинат", "Подложка и ламинат", 5, 3);
-                    SubTask sub3 = new SubTask("Поклеить обои", "Обои с подбором", 6, 3);
+                    SubTask sub1 = new SubTask("Отшпаклевать стены", "Шпаклевка и шлифовка", 4,  3);
+                    SubTask sub2 = new SubTask("Положить ламинат", "Подложка и ламинат", 5,  3);
+                    SubTask sub3 = new SubTask("Поклеить обои", "Обои с подбором", 6,  3);
                     taskManager.addNewTask(epic);
                     taskManager.addNewTask(epic2);
                     taskManager.addNewTask(task);
@@ -53,13 +55,13 @@ public class Main {
                     taskManager.findSubtaskById(4).setStatus(Status.DONE);
                     taskManager.findSubtaskById(5).setStatus(Status.IN_PROGRESS);
                     taskManager.findSubtaskById(6).setStatus(Status.NEW);
-                    System.out.println(taskManager.findTaskById(3).getStatus());
+                    System.out.println(taskManager.findEpicTaskById(3).getStatus());
                     break;
                 case 6:
                     Task task2 = new Task("Помыть посуду до блеска", "Загрузить посудомойку " +
                             "посудой и чистящим средством", 2);
                     SubTask sub4 = new SubTask("Поклеить обои", "Прогрунтовать стены. Обои с " +
-                            "подбором", 6, 3);
+                            "подбором", 6,  3);
                     EpicTask epic3 = new EpicTask("Покормить кошку", "Кошка ест только Sheba " +
                             "после прогулки", 1);
                     taskManager.updateTask(task2);
@@ -95,6 +97,19 @@ public class Main {
                     System.out.println("Удаляем эпик и его подзадачи");
                     taskManager.removeEpicTaskByID(3);
                     System.out.println(taskManager.getHistory().toString());
+                    break;
+                case 10:
+                    FileBackedTasksManager loadFromFile=FileBackedTasksManager.loadFromFile(FileManager.connectRepository());
+                    System.out.println("Old manager");
+                    System.out.println("All tasks");
+                    System.out.println(taskManager.findAllTasks().toString());
+                    System.out.println("History");
+                    System.out.println(taskManager.getHistory().toString());
+                    System.out.println("New manager from file");
+                    System.out.println("All tasks");
+                    System.out.println(loadFromFile.findAllTasks().toString());
+                    System.out.println("History");
+                    System.out.println(loadFromFile.getHistory().toString());
                     break;
                 case 0:
                     return;

@@ -19,6 +19,7 @@ public class InMemoryTaskManager implements TotalManager {
     @Override
     public List<Task> findAllTasks() {
         List<Task> allTasks = new ArrayList<>(taskManager.findAllTask());
+        allTasks.addAll(epicTaskManager.findAllTask());
         allTasks.addAll(subTaskManager.findAllTask());
         return allTasks;
     }
