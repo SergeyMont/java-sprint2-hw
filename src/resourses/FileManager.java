@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class FileManager {
     public static File connectRepository(){
-        File file=new File("C:\\Users\\Admin\\dev\\java-sprint2-hw\\data.csv");
+        File file=new File("data.csv");
         if (!file.isFile()){
             try {
                 file.createNewFile();

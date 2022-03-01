@@ -12,7 +12,7 @@ public class Menu {
         System.out.println("7 - Удаление ранее добавленных задач — по идентификатору.");
         System.out.println("8 - Удаление ранее добавленных задач — всех .");
         System.out.println("9 - Получить историю просмотров .");
-        System.out.println("10 - Загрузить менеджер из файла");
+        System.out.println("10 - Демонстрация загрузки менеджера из файла");
         System.out.println("0 - Выход");
     }
 }

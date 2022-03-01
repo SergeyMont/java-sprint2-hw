@@ -1,7 +1,6 @@
 package controller;
 
 import model.*;
-import resourses.FileManager;
 
 import javax.swing.*;
 import java.io.BufferedWriter;
@@ -15,9 +14,6 @@ import java.util.*;
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private File file;
 
-    public FileBackedTasksManager() {
-    }
-
     public FileBackedTasksManager(File file) {
         this.file = file;
     }
@@ -30,6 +26,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             for (Task task : list) {
                 bwr.write(task.writeString() + "\n");
             }
+            bwr.write(" \n");
             List<Task> history = getHistory();
             for (Task task : history) {
                 bwr.write(task.getId() + ",");
@@ -47,24 +44,28 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         try {
             str = Files.readString(file.toPath());
             List<String> data = Arrays.asList(str.split("\n"));
-            String lastLine = data.get(data.size() - 1);
+            int index = data.indexOf(" ");
+            String lastLine = data.get(index + 1);
             List<Integer> historyID = fbtm.historyFromString(lastLine);
             Map<Integer, Task> map = new HashMap<>();
-            for (int i = 1; i < data.size() - 1; i++) {
+            for (int i = 1; i < data.size() - 2; i++) {
                 Task task = fbtm.fromString(data.get(i));
-                fbtm.addNewTask(task);
+                fbtm.addTaskWOutSave(task);
                 map.put(task.getId(), task);
             }
-            for (int i = 0; i < historyID.size(); i++) {
-                Task task = map.get(historyID.get(i));
-                if (Task.class == task.getClass()) {
-                    fbtm.findTaskById(task.getId());
-                }
-                if (task instanceof EpicTask) {
-                    fbtm.findEpicTaskById(task.getId());
-                }
-                if (task instanceof SubTask) {
-                    fbtm.findSubtaskById(task.getId());
+            if (!lastLine.isEmpty() | !lastLine.isBlank()) {
+                for (int i = 0; i < historyID.size(); i++) {
+                    Task task = map.get(historyID.get(i));
+
+                    if (task instanceof EpicTask) {
+                        fbtm.findEpicTaskById(task.getId());
+                    }
+                    if (task instanceof SubTask) {
+                        fbtm.findSubtaskById(task.getId());
+                    }
+                    if (task instanceof Task) {
+                        fbtm.findTaskById(task.getId());
+                    }
                 }
             }
             //something wrong
@@ -100,37 +101,36 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public List<Task> findAllTasks() {
-        return super.findAllTasks();
-    }
-
-    @Override
-    public List<EpicTask> findAllEpicTask() {
-        return super.findAllEpicTask();
-    }
-
-    @Override
     public List<SubTask> findTaskByEpic(EpicTask epic) {
+        List<SubTask> list=super.findTaskByEpic(epic);
+        save();
+        return list;
 
-        return super.findTaskByEpic(epic);
     }
 
     @Override
     public Task findTaskById(int id) {
-
-        return super.findTaskById(id);
+        Task task = super.findTaskById(id);
+        save();
+        return task;
     }
 
     @Override
     public SubTask findSubtaskById(int id) {
-
-        return super.findSubtaskById(id);
+        SubTask sub = super.findSubtaskById(id);
+        save();
+        return sub;
     }
 
     @Override
     public EpicTask findEpicTaskById(int id) {
+        EpicTask ep = super.findEpicTaskById(id);
+        save();
+        return ep;
+    }
 
-        return super.findEpicTaskById(id);
+    private void addTaskWOutSave(Task task) {
+        super.addNewTask(task);
     }
 
     @Override
@@ -167,10 +167,5 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public void removeSubTaskByID(int id) {
         super.removeSubTaskByID(id);
         save();
-    }
-
-    @Override
-    public List<Task> getHistory() {
-        return super.getHistory();
     }
 }

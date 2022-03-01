@@ -5,8 +5,8 @@ import java.util.Objects;
 import static model.Status.NEW;
 
 public class Task {
-    private String name;
-    private String details;
+    final private String name;
+    final private String details;
     final private int id;
     private Status status;
 

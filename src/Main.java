@@ -43,9 +43,9 @@ public class Main {
                     Task task = new Task("Помыть посуду", "Загрузить посудомойку", 2);
                     EpicTask epic2 = new EpicTask("Сделать ремонт", "Выполнить ремонт до Нового " +
                             "года", 3);
-                    SubTask sub1 = new SubTask("Отшпаклевать стены", "Шпаклевка и шлифовка", 4,  3);
-                    SubTask sub2 = new SubTask("Положить ламинат", "Подложка и ламинат", 5,  3);
-                    SubTask sub3 = new SubTask("Поклеить обои", "Обои с подбором", 6,  3);
+                    SubTask sub1 = new SubTask("Отшпаклевать стены", "Шпаклевка и шлифовка", 4, 3);
+                    SubTask sub2 = new SubTask("Положить ламинат", "Подложка и ламинат", 5, 3);
+                    SubTask sub3 = new SubTask("Поклеить обои", "Обои с подбором", 6, 3);
                     taskManager.addNewTask(epic);
                     taskManager.addNewTask(epic2);
                     taskManager.addNewTask(task);
@@ -61,7 +61,7 @@ public class Main {
                     Task task2 = new Task("Помыть посуду до блеска", "Загрузить посудомойку " +
                             "посудой и чистящим средством", 2);
                     SubTask sub4 = new SubTask("Поклеить обои", "Прогрунтовать стены. Обои с " +
-                            "подбором", 6,  3);
+                            "подбором", 6, 3);
                     EpicTask epic3 = new EpicTask("Покормить кошку", "Кошка ест только Sheba " +
                             "после прогулки", 1);
                     taskManager.updateTask(task2);
@@ -99,12 +99,31 @@ public class Main {
                     System.out.println(taskManager.getHistory().toString());
                     break;
                 case 10:
-                    FileBackedTasksManager loadFromFile=FileBackedTasksManager.loadFromFile(FileManager.connectRepository());
+                    System.out.println("Load Tasks");
+                    Task taskTest = new Task("Помыть посуду", "Загрузить посудомойку", 2);
+                    EpicTask epic2Test = new EpicTask("Сделать ремонт", "Выполнить ремонт до " +
+                            "Нового " +
+                            "года", 3);
+                    SubTask sub1Test = new SubTask("Отшпаклевать стены", "Шпаклевка и шлифовка",
+                            4, 3);
+                    SubTask sub2Test = new SubTask("Положить ламинат", "Подложка и ламинат", 5, 3);
+                    SubTask sub3Test = new SubTask("Поклеить обои", "Обои с подбором", 6, 3);
+                    taskManager.addNewTask(taskTest);
+                    taskManager.addNewTask(epic2Test);
+                    taskManager.addNewTask(sub1Test);
+                    taskManager.addNewTask(sub2Test);
+                    taskManager.addNewTask(sub3Test);
+                    System.out.println("Add History");
+                    taskManager.findTaskById(2);
+                    taskManager.findEpicTaskById(3);
+                    taskManager.findSubtaskById(5);
                     System.out.println("Old manager");
                     System.out.println("All tasks");
                     System.out.println(taskManager.findAllTasks().toString());
                     System.out.println("History");
                     System.out.println(taskManager.getHistory().toString());
+                    FileBackedTasksManager loadFromFile =
+                            FileBackedTasksManager.loadFromFile(FileManager.connectRepository());
                     System.out.println("New manager from file");
                     System.out.println("All tasks");
                     System.out.println(loadFromFile.findAllTasks().toString());

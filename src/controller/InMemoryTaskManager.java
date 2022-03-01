@@ -63,9 +63,6 @@ public class InMemoryTaskManager implements TotalManager {
     //    параметра.
     @Override
     public void addNewTask(Task task) {
-        if (Task.class == task.getClass()) {
-            taskManager.addNewTask(task);
-        }
 
         if (task instanceof EpicTask) {
             EpicTask epic = (EpicTask) task;
@@ -78,6 +75,10 @@ public class InMemoryTaskManager implements TotalManager {
             subTaskManager.addNewTask(sub);
             EpicTask ep = epicTaskManager.getTaskById(sub.getEpicID());
             ep.getSubTasks().add(sub);
+        }
+
+        if (task instanceof Task) {
+            taskManager.addNewTask(task);
         }
     }
 
