@@ -114,9 +114,9 @@ public class Main {
                     taskManager.addNewTask(sub2Test);
                     taskManager.addNewTask(sub3Test);
                     System.out.println("Add History");
-                    taskManager.findTaskById(2);
-                    taskManager.findEpicTaskById(3);
-                    taskManager.findSubtaskById(5);
+//                    taskManager.findTaskById(2);
+//                    taskManager.findEpicTaskById(3);
+//                    taskManager.findSubtaskById(5);
                     System.out.println("Old manager");
                     System.out.println("All tasks");
                     System.out.println(taskManager.findAllTasks().toString());

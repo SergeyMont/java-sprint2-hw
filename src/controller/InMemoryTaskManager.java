@@ -87,10 +87,6 @@ public class InMemoryTaskManager implements TotalManager {
     @Override
     public void updateTask(Task task) {
 
-        if (Task.class == task.getClass()) {
-            taskManager.updateTask(task);
-        }
-
         if (task instanceof EpicTask) {
             EpicTask epic = (EpicTask) task;
             epicTaskManager.updateTask(epic);
@@ -102,6 +98,10 @@ public class InMemoryTaskManager implements TotalManager {
             EpicTask ep = epicTaskManager.getTaskById(sub.getEpicID());
             int index = ep.getSubTasks().indexOf(sub);
             ep.getSubTasks().set(index, sub);
+        }
+
+        if(task instanceof Task){
+            taskManager.updateTask(task);
         }
     }
 

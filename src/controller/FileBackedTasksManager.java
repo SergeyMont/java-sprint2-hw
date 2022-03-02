@@ -45,8 +45,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             str = Files.readString(file.toPath());
             List<String> data = Arrays.asList(str.split("\n"));
             int index = data.indexOf(" ");
-            String lastLine = data.get(index + 1);
-            List<Integer> historyID = fbtm.historyFromString(lastLine);
+            String lastLine = "";
+            List<Integer> historyID = new ArrayList<>();
+            if (data.size() > index + 1) {
+                lastLine = data.get(index + 1);
+                historyID = fbtm.historyFromString(lastLine);
+            }
+
             Map<Integer, Task> map = new HashMap<>();
             for (int i = 1; i < data.size() - 2; i++) {
                 Task task = fbtm.fromString(data.get(i));
@@ -102,7 +107,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     @Override
     public List<SubTask> findTaskByEpic(EpicTask epic) {
-        List<SubTask> list=super.findTaskByEpic(epic);
+        List<SubTask> list = super.findTaskByEpic(epic);
         save();
         return list;
 
