@@ -2,7 +2,7 @@ import controller.FileBackedTasksManager;
 import controller.Managers;
 import controller.TotalManager;
 import model.EpicTask;
-import model.Status;
+import model.StatusTask;
 import model.SubTask;
 import model.Task;
 import resourses.FileManager;
@@ -52,9 +52,9 @@ public class Main {
                     taskManager.addNewTask(sub1);
                     taskManager.addNewTask(sub2);
                     taskManager.addNewTask(sub3);
-                    taskManager.findSubtaskById(4).setStatus(Status.DONE);
-                    taskManager.findSubtaskById(5).setStatus(Status.IN_PROGRESS);
-                    taskManager.findSubtaskById(6).setStatus(Status.NEW);
+                    taskManager.findSubtaskById(4).setStatus(StatusTask.DONE);
+                    taskManager.findSubtaskById(5).setStatus(StatusTask.IN_PROGRESS);
+                    taskManager.findSubtaskById(6).setStatus(StatusTask.NEW);
                     System.out.println(taskManager.findEpicTaskById(3).getStatus());
                     break;
                 case 6:
@@ -100,19 +100,24 @@ public class Main {
                     break;
                 case 10:
                     System.out.println("Load Tasks");
-                    Task taskTest = new Task("Помыть посуду", "Загрузить посудомойку", 2);
+                    Task taskTest = new Task("Помыть посуду", "Загрузить посудомойку", 2,
+                            StatusTask.NEW, 20L, "01.01.2020-12:30");
                     EpicTask epic2Test = new EpicTask("Сделать ремонт", "Выполнить ремонт до " +
                             "Нового " +
-                            "года", 3);
+                            "года", 3, StatusTask.NEW, 20L, "01.01.2020-12:30");
                     SubTask sub1Test = new SubTask("Отшпаклевать стены", "Шпаклевка и шлифовка",
-                            4, 3);
-                    SubTask sub2Test = new SubTask("Положить ламинат", "Подложка и ламинат", 5, 3);
-                    SubTask sub3Test = new SubTask("Поклеить обои", "Обои с подбором", 6, 3);
+                            4, StatusTask.NEW, 20L, "02.01.2020-12:30", 3);
+                    SubTask sub2Test = new SubTask("Положить ламинат", "Подложка и ламинат", 5,
+                            StatusTask.NEW, 20L, "03.01.2020-12:30", 3);
+                    SubTask sub3Test = new SubTask("Поклеить обои", "Обои с подбором", 6,
+                            StatusTask.NEW, 20L, "04.01.2020-12:30", 3);
                     taskManager.addNewTask(taskTest);
                     taskManager.addNewTask(epic2Test);
                     taskManager.addNewTask(sub1Test);
                     taskManager.addNewTask(sub2Test);
                     taskManager.addNewTask(sub3Test);
+                    epic2Test.getEndTime();
+                    taskManager.findEpicTaskById(3);
                     System.out.println("Add History");
 //                    taskManager.findTaskById(2);
 //                    taskManager.findEpicTaskById(3);

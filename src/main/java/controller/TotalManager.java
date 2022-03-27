@@ -41,4 +41,6 @@ public interface TotalManager {
     void removeSubTaskByID(int id);
 
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
 }

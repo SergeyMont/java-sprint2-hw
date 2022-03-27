@@ -2,7 +2,6 @@ package controller;
 
 import model.*;
 
-import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -22,7 +21,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         try (BufferedWriter bwr =
                      new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
             List<Task> list = findAllTasks();
-            bwr.write("id,type,name,status,description,epic\n");
+            bwr.write("id,type,name,status,description,epic, duration, startTime\n");
             for (Task task : list) {
                 bwr.write(task.writeString() + "\n");
             }
@@ -52,8 +51,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 historyID = fbtm.historyFromString(lastLine);
             }
 
+            int a=0;
+            if(lastLine.isEmpty()){
+                a=1;
+            }
+            else{a=2;}
             Map<Integer, Task> map = new HashMap<>();
-            for (int i = 1; i < data.size() - 2; i++) {
+            for (int i = 1; i < data.size()-a; i++) {
                 Task task = fbtm.fromString(data.get(i));
                 fbtm.addTaskWOutSave(task);
                 map.put(task.getId(), task);
@@ -68,7 +72,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     if (task instanceof SubTask) {
                         fbtm.findSubtaskById(task.getId());
                     }
-                    if (task instanceof Task) {
+                    if (task.getClass()== Task.class) {
                         fbtm.findTaskById(task.getId());
                     }
                 }
@@ -85,22 +89,26 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         int id = Integer.parseInt(arr[0]);
         TaskTypes type = TaskTypes.valueOf(arr[1]);
         String name = arr[2];
-        Status status = Status.valueOf(arr[4]);
         String details = arr[3];
+        StatusTask status = StatusTask.valueOf(arr[4]);
+        Long duration=Long.parseLong(arr[5]);
+        String startTime=arr[6];
         Integer epicID;
-        if (arr.length > 5) {
-            epicID = Integer.parseInt(arr[5]);
+        if (arr.length > 7) {
+            epicID = Integer.parseInt(arr[7]);
         } else {
             epicID = 0;
         }
-        return TaskFactory.createTask(id, type, name, status, details, epicID);
+        return TaskFactory.createTask(id, type, name, status, details, epicID, duration, startTime);
     }
 
     private List<Integer> historyFromString(String value) {
-        String[] arr = value.split(",");
         List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < arr.length; i++) {
-            result.add(Integer.valueOf(arr[i]));
+        if(!value.isEmpty()) {
+            String[] arr = value.split(",");
+            for (int i = 0; i < arr.length; i++) {
+                result.add(Integer.valueOf(arr[i]));
+            }
         }
         return result;
     }

@@ -1,9 +1,15 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EpicTask extends Task {
+
+    public void setSubTasks(ArrayList<SubTask> subTasks) {
+        this.subTasks = subTasks;
+    }
 
     private ArrayList<SubTask> subTasks;
 
@@ -16,8 +22,9 @@ public class EpicTask extends Task {
         subTasks = new ArrayList<>();
     }
 
-    public EpicTask(String name, String details, int id, Status status) {
-        super(name, details, id);
+    public EpicTask(String name, String details, int id, StatusTask status, Long duration,
+                    String startTime) {
+        super(name, details, id, status, duration, startTime);
         subTasks = new ArrayList<>();
     }
 
@@ -30,9 +37,9 @@ public class EpicTask extends Task {
     }
 
     @Override
-    public Status getStatus() {
+    public StatusTask getStatus() {
         if (subTasks.isEmpty()) {
-            return Status.NEW;
+            return StatusTask.NEW;
         } else {
             int countNewStatus = 0;
             int countDoneStatus = 0;
@@ -46,13 +53,32 @@ public class EpicTask extends Task {
                 }
             }
             if (countNewStatus == subTasks.size()) {
-                return Status.NEW;
+                return StatusTask.NEW;
             } else if (countDoneStatus == subTasks.size()) {
-                return Status.DONE;
+                return StatusTask.DONE;
             } else {
-                return Status.IN_PROGRESS;
+                return StatusTask.IN_PROGRESS;
             }
         }
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        if (subTasks.isEmpty()) {
+            return LocalDateTime.MIN;//TO DO Think about it
+        } else {
+            LocalDateTime start = subTasks.get(0).getStartTime();
+            Duration duration = Duration.ofMillis(0);
+            for (SubTask sub : subTasks) {
+                duration=duration.plus(sub.getDuration());
+                if (start.isAfter(sub.getStartTime())) {
+                    start = sub.getStartTime();
+                }
+            }
+            super.setStartTime(start);
+            super.setDuration(duration);
+        }
+        return super.getEndTime();
     }
 
     @Override
@@ -62,6 +88,8 @@ public class EpicTask extends Task {
                 ", details='" + super.getDetails() + '\'' +
                 ", id=" + super.getId() +
                 ", status=" + super.getStatus() +
+                ", duration=" + super.getDuration() +
+                ", startTime=" + super.getStartTime() +
                 '}';
     }
 
@@ -70,6 +98,8 @@ public class EpicTask extends Task {
         return super.getId() + "," + TaskTypes.EPIC_TASK + "," +
                 super.getName() + ',' +
                 super.getDetails() + ',' +
-                super.getStatus() + ',';
+                super.getStatus() + ',' +
+                super.getDuration().toMinutes() + ',' +
+                super.getStartTime().format(super.formatter) + ',';
     }
 }

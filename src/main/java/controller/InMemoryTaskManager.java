@@ -13,6 +13,7 @@ public class InMemoryTaskManager implements TotalManager {
     private TaskManager<SubTask> subTaskManager = new TaskMemoryManager<SubTask>();
     private TaskManager<Task> taskManager = new TaskMemoryManager<Task>();
     private HistoryManager historyManager = new InMemoryHistoryManager();
+    private PrioritizedManager prioritized = new InMemoryPrioritizedTasks();
 
 
     //    Получение списка всех задач.
@@ -67,6 +68,7 @@ public class InMemoryTaskManager implements TotalManager {
         if (task instanceof EpicTask) {
             EpicTask epic = (EpicTask) task;
             epicTaskManager.addNewTask(epic);
+            prioritized.addPrioritize(epic);
         }
 
 
@@ -75,10 +77,12 @@ public class InMemoryTaskManager implements TotalManager {
             subTaskManager.addNewTask(sub);
             EpicTask ep = epicTaskManager.getTaskById(sub.getEpicID());
             ep.getSubTasks().add(sub);
+            prioritized.addPrioritize(sub);
         }
 
-        if (task instanceof Task) {
+        if (task.getClass()==Task.class) {
             taskManager.addNewTask(task);
+            prioritized.addPrioritize(task);
         }
     }
 
@@ -100,7 +104,7 @@ public class InMemoryTaskManager implements TotalManager {
             ep.getSubTasks().set(index, sub);
         }
 
-        if(task instanceof Task){
+        if (task.getClass()==Task.class) {
             taskManager.updateTask(task);
         }
     }
@@ -112,18 +116,19 @@ public class InMemoryTaskManager implements TotalManager {
         epicTaskManager.removeAll();
         subTaskManager.removeAll();
         historyManager.removeAll();
+        prioritized.removeAll();
     }
 
     @Override
     public void removeTaskById(int id) {
-
+        prioritized.remove(taskManager.getTaskById(id));
         taskManager.removeTaskById(id);
         historyManager.remove(id);
     }
 
     @Override
     public void removeEpicTaskByID(int id) {
-
+        prioritized.remove(epicTaskManager.getTaskById(id));
         List<SubTask> subTasks = epicTaskManager.getTaskById(id).getSubTasks();
         for (SubTask sub : subTasks) {
             historyManager.remove(sub.getId());
@@ -134,7 +139,7 @@ public class InMemoryTaskManager implements TotalManager {
 
     @Override
     public void removeSubTaskByID(int id) {
-
+        prioritized.remove(subTaskManager.getTaskById(id));
         subTaskManager.removeTaskById(id);
         historyManager.remove(id);
     }
@@ -143,4 +148,11 @@ public class InMemoryTaskManager implements TotalManager {
     public List<Task> getHistory() {
         return historyManager.getHistory();
     }
+
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        return prioritized.getPrioritized();
+    }
+
+
 }

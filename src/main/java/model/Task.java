@@ -1,20 +1,27 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-import static model.Status.NEW;
+import static model.StatusTask.*;
+
 
 public class Task {
     final private String name;
     final private String details;
     final private int id;
-    private Status status;
+    private StatusTask status;
+    private Duration duration;
+    private LocalDateTime startTime;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy-HH:mm");
 
     public Task() {
         name = "";
         details = "";
         id = 0;
-        status = NEW;
+        status = StatusTask.NEW;
     }
 
     public Task(String name, int id) {
@@ -31,11 +38,14 @@ public class Task {
         this.status = NEW;
     }
 
-    public Task(String name, String details, int id, Status status) {
+    public Task(String name, String details, int id, StatusTask status, Long duration,
+                String startTime) {
         this.name = name;
         this.details = details;
         this.id = id;
         this.status = status;
+        this.duration = Duration.ofMinutes(duration);
+        this.startTime = LocalDateTime.parse(startTime, formatter);
     }
 
     public Task(Task task) {
@@ -57,11 +67,11 @@ public class Task {
         return id;
     }
 
-    public Status getStatus() {
+    public StatusTask getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(StatusTask status) {
         this.status = status;
     }
 
@@ -85,6 +95,8 @@ public class Task {
                 ", details='" + details + '\'' +
                 ", id=" + id +
                 ", status=" + status +
+                ", duration=" + duration +
+                ", startTime=" + startTime +
                 '}';
     }
 
@@ -92,6 +104,28 @@ public class Task {
         return id + "," + TaskTypes.TASK + "," +
                 name + ',' +
                 details + ',' +
-                status + ',';
+                status + ',' +
+                duration.toMinutes() + ',' +
+                startTime.format(formatter)+ ',';
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime(){
+        return startTime.plus(duration);
     }
 }

@@ -1,5 +1,7 @@
 package controller;
 
+import model.EpicTask;
+import model.SubTask;
 import model.Task;
 
 import java.util.ArrayList;
@@ -27,6 +29,9 @@ public class TaskMemoryManager<T extends Task> implements TaskManager<T> {
 
     @Override
     public void updateTask(T task) {
+        if (task.getClass() == EpicTask.class) {
+            ((EpicTask) task).setSubTasks((ArrayList<SubTask>) ((EpicTask) tasks.get(task.getId())).getSubTasks());
+        }
         tasks.replace(task.getId(), task);
 
     }
