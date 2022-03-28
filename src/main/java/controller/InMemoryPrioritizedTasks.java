@@ -15,12 +15,8 @@ public class InMemoryPrioritizedTasks implements PrioritizedManager {
 
     @Override
     public boolean addPrioritize(Task task) {
-     //   if (map.containsKey(task.getStartTime()) & map.get(map.lastKey()).getEndTime().isAfter(task.getStartTime())) {
-      //      return false;
-       // } else {
-            map.put(task.getStartTime(), task);
-            return true;
-      //  }
+        map.put(task.getStartTime(), task);
+        return true;
     }
 
     @Override

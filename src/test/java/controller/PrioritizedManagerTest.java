@@ -1,7 +1,9 @@
 package controller;
 
 import model.EpicTask;
-import model.StatusTask;
+
+import static model.StatusTask.*;
+
 import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.Test;
@@ -14,15 +16,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class PrioritizedManagerTest {
     PrioritizedManager prioritizedManager = new InMemoryPrioritizedTasks();
     List<Task> list = new ArrayList<>();
-    Task task = new Task("Помыть посуду", "Загрузить посудомойку", 2, StatusTask.NEW, 60L, "01.01" +
+    Task task = new Task("Помыть посуду", "Загрузить посудомойку", 2, NEW, 60L, "01.01" +
             ".2020-12:30");
     EpicTask ep1 = new EpicTask("Сделать ремонт", "Выполнить ремонт до Нового " +
             "года", 3);
-    SubTask sub1 = new SubTask("Отшпаклевать стены", "Шпаклевка и шлифовка", 4, StatusTask.NEW,
+    SubTask sub1 = new SubTask("Отшпаклевать стены", "Шпаклевка и шлифовка", 4, NEW,
             60L, "02.01.2020-12:30", 3);
-    SubTask sub2 = new SubTask("Положить ламинат", "Подложка и ламинат", 5, StatusTask.NEW, 60L,
+    SubTask sub2 = new SubTask("Положить ламинат", "Подложка и ламинат", 5, NEW, 60L,
             "10.01.2020-12:30", 3);
-    SubTask sub3 = new SubTask("Поклеить обои", "Обои с подбором", 6, StatusTask.NEW, 60L, "05.01" +
+    SubTask sub3 = new SubTask("Поклеить обои", "Обои с подбором", 6, NEW, 60L, "05.01" +
             ".2020-12:30", 3);
 
     @Test

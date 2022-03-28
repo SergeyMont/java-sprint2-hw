@@ -2,7 +2,9 @@ import controller.FileBackedTasksManager;
 import controller.Managers;
 import controller.TotalManager;
 import model.EpicTask;
-import model.StatusTask;
+
+import static model.StatusTask.*;
+
 import model.SubTask;
 import model.Task;
 import resourses.FileManager;
@@ -52,9 +54,9 @@ public class Main {
                     taskManager.addNewTask(sub1);
                     taskManager.addNewTask(sub2);
                     taskManager.addNewTask(sub3);
-                    taskManager.findSubtaskById(4).setStatus(StatusTask.DONE);
-                    taskManager.findSubtaskById(5).setStatus(StatusTask.IN_PROGRESS);
-                    taskManager.findSubtaskById(6).setStatus(StatusTask.NEW);
+                    taskManager.findSubtaskById(4).setStatus(DONE);
+                    taskManager.findSubtaskById(5).setStatus(IN_PROGRESS);
+                    taskManager.findSubtaskById(6).setStatus(NEW);
                     System.out.println(taskManager.findEpicTaskById(3).getStatus());
                     break;
                 case 6:
@@ -101,16 +103,16 @@ public class Main {
                 case 10:
                     System.out.println("Load Tasks");
                     Task taskTest = new Task("Помыть посуду", "Загрузить посудомойку", 2,
-                            StatusTask.NEW, 20L, "01.01.2020-12:30");
+                            NEW, 20L, "01.01.2020-12:30");
                     EpicTask epic2Test = new EpicTask("Сделать ремонт", "Выполнить ремонт до " +
                             "Нового " +
-                            "года", 3, StatusTask.NEW, 20L, "01.01.2020-12:30");
+                            "года", 3, NEW, 20L, "01.01.2020-12:30");
                     SubTask sub1Test = new SubTask("Отшпаклевать стены", "Шпаклевка и шлифовка",
-                            4, StatusTask.NEW, 20L, "02.01.2020-12:30", 3);
+                            4, NEW, 20L, "02.01.2020-12:30", 3);
                     SubTask sub2Test = new SubTask("Положить ламинат", "Подложка и ламинат", 5,
-                            StatusTask.NEW, 20L, "03.01.2020-12:30", 3);
+                            NEW, 20L, "03.01.2020-12:30", 3);
                     SubTask sub3Test = new SubTask("Поклеить обои", "Обои с подбором", 6,
-                            StatusTask.NEW, 20L, "04.01.2020-12:30", 3);
+                            NEW, 20L, "04.01.2020-12:30", 3);
                     taskManager.addNewTask(taskTest);
                     taskManager.addNewTask(epic2Test);
                     taskManager.addNewTask(sub1Test);
@@ -136,6 +138,7 @@ public class Main {
                     System.out.println(loadFromFile.getHistory().toString());
                     break;
                 case 0:
+                    scanner.close();
                     return;
             }
         }

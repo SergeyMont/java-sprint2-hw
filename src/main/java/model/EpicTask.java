@@ -70,7 +70,7 @@ public class EpicTask extends Task {
             LocalDateTime start = subTasks.get(0).getStartTime();
             Duration duration = Duration.ofMillis(0);
             for (SubTask sub : subTasks) {
-                duration=duration.plus(sub.getDuration());
+                duration = duration.plus(sub.getDuration());
                 if (start.isAfter(sub.getStartTime())) {
                     start = sub.getStartTime();
                 }
