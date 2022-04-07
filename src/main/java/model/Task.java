@@ -1,21 +1,41 @@
 package model;
 
+import com.fasterxml.jackson.annotation.*;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import static model.StatusTask.*;
+import static model.TaskTypes.*;
 
-
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.CLASS,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = EpicTask.class, name = "EPIC_TASK"),
+        @JsonSubTypes.Type(value = SubTask.class, name = "SUBTASK")
+})
 public class Task {
-    final private String name;
-    final private String details;
-    final private int id;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("details")
+    private String details;
+    @JsonProperty("id")
+    private int id;
+    @JsonProperty("status")
     private StatusTask status;
+    @JsonProperty("duration")
     private Duration duration;
+    @JsonProperty("start_time")
     private LocalDateTime startTime;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy-HH:mm");
+    @JsonIgnore
+    protected final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy-HH:mm");
+   // private TaskTypes type=TASK;
+
+
 
     public Task() {
         name = "";
@@ -74,41 +94,6 @@ public class Task {
     public void setStatus(StatusTask status) {
         this.status = status;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return id == task.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "name='" + name + '\'' +
-                ", details='" + details + '\'' +
-                ", id=" + id +
-                ", status=" + status +
-                ", duration=" + duration +
-                ", startTime=" + startTime +
-                '}';
-    }
-
-    public String writeString() {
-        return id + "," + TaskTypes.TASK + "," +
-                name + ',' +
-                details + ',' +
-                status + ',' +
-                duration.toMinutes() + ',' +
-                startTime.format(formatter)+ ',';
-    }
-
     public Duration getDuration() {
         return duration;
     }
@@ -124,8 +109,62 @@ public class Task {
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
-
+    @JsonIgnore
     public LocalDateTime getEndTime(){
         return startTime.plus(duration);
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public DateTimeFormatter getFormatter() {
+        return formatter;
+    }
+
+
+    //public TaskTypes getType() {
+       // return type;
+    //}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+   // @JsonValue
+    public String toString() {
+        return "Task{" +
+                "name:" + name + '\'' +
+                ", details:" + details + '\'' +
+                ", id:" + id +
+                ", status:" + status +
+                ", duration:" + duration +
+                ", startTime:" + startTime +
+                '}';
+    }
+
+    public String writeString() {
+        return id + "," + TaskTypes.TASK + "," +
+                name + ',' +
+                details + ',' +
+                status + ',' +
+                duration.toMinutes() + ',' +
+                startTime.format(formatter)+ ',';
     }
 }

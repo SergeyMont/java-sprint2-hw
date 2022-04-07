@@ -1,6 +1,8 @@
 import controller.FileBackedTasksManager;
+import controller.HTTPTaskManager;
 import controller.Managers;
 import controller.TotalManager;
+import httpResourses.KVServer;
 import model.EpicTask;
 
 import static model.StatusTask.*;
@@ -9,11 +11,19 @@ import model.SubTask;
 import model.Task;
 import resourses.FileManager;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        KVServer base= null;
+        try {
+            base = new KVServer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        base.start();
         TotalManager taskManager = Managers.getDefault();
         EpicTask epic = new EpicTask("Покормить кошку", "Кошка ест только Sheba", 1);
         while (true) {
@@ -118,7 +128,7 @@ public class Main {
                     taskManager.addNewTask(sub1Test);
                     taskManager.addNewTask(sub2Test);
                     taskManager.addNewTask(sub3Test);
-                    epic2Test.getEndTime();
+                    //epic2Test.getEndTime();
                     taskManager.findEpicTaskById(3);
                     System.out.println("Add History");
 //                    taskManager.findTaskById(2);
@@ -129,16 +139,17 @@ public class Main {
                     System.out.println(taskManager.findAllTasks().toString());
                     System.out.println("History");
                     System.out.println(taskManager.getHistory().toString());
-                    FileBackedTasksManager loadFromFile =
-                            FileBackedTasksManager.loadFromFile(FileManager.connectRepository());
+                    HTTPTaskManager loadFromServer =
+                            new HTTPTaskManager("http://localhost:8078/").loadFromServer();
                     System.out.println("New manager from file");
                     System.out.println("All tasks");
-                    System.out.println(loadFromFile.findAllTasks().toString());
+                    System.out.println(loadFromServer.findAllTasks().toString());
                     System.out.println("History");
-                    System.out.println(loadFromFile.getHistory().toString());
+                    System.out.println(loadFromServer.getHistory().toString());
                     break;
                 case 0:
                     scanner.close();
+                    base.stop();
                     return;
             }
         }

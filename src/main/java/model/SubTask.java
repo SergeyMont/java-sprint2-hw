@@ -1,6 +1,15 @@
 package model;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import static model.TaskTypes.*;
+
+@JsonSerialize
 public class SubTask extends Task {
+//    @JsonProperty
+//    private TaskTypes type=SUBTASK;
+    @JsonProperty("epic_id")
     private int epicID;
 
     public SubTask() {

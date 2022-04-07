@@ -1,16 +1,21 @@
 package model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import static model.TaskTypes.*;
+
 
 public class EpicTask extends Task {
-
-    public void setSubTasks(ArrayList<SubTask> subTasks) {
-        this.subTasks = subTasks;
-    }
-
+//    @JsonProperty
+//    private TaskTypes type=EPIC_TASK;
+    //@JsonIgnore
     private ArrayList<SubTask> subTasks;
 
     public EpicTask() {
@@ -63,6 +68,7 @@ public class EpicTask extends Task {
     }
 
     @Override
+    @JsonIgnore
     public LocalDateTime getEndTime() {
         if (subTasks.isEmpty()) {
             return LocalDateTime.MIN;//TO DO Think about it
@@ -80,6 +86,10 @@ public class EpicTask extends Task {
         }
         return super.getEndTime();
     }
+    public void setSubTasks(ArrayList<SubTask> subTasks) {
+        this.subTasks = subTasks;
+    }
+
 
     @Override
     public String toString() {
