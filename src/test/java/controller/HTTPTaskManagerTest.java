@@ -34,11 +34,6 @@ class HTTPTaskManagerTest {
         base.start();
     }
 
-    @AfterAll
-    static void stop(){
-        //base.stop();
-         }
-
     @Test
     void saveAndLoadFromServerEmptyTasks() {
         HTTPTaskManager fromServer =

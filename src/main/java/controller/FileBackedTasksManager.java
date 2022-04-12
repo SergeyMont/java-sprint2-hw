@@ -11,13 +11,17 @@ import java.nio.file.Files;
 import java.util.*;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    private final File file;
+    private File file;
+
+    public FileBackedTasksManager(){
+        super();
+    }
 
     public FileBackedTasksManager(File file) {
         this.file = file;
     }
 
-    public void save() {
+    private void save() {
         try (BufferedWriter bwr =
                      new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
             List<Task> list = findAllTasks();

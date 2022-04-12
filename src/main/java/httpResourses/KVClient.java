@@ -7,9 +7,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class KVClient {
-    String auth = "?API_KEY=";
-    String uri;
-    String registration;
+    private static final String auth = "?API_KEY=";
+    private String uri;
+    private String registration;
     private final HttpClient client;
 
     public KVClient(String uri) {

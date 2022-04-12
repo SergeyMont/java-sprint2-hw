@@ -1,23 +1,19 @@
 package controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import httpResourses.KVClient;
 import model.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
-public class HTTPTaskManager extends InMemoryTaskManager {
-    KVClient client;
-    String uri;
-    ObjectMapper mapper =
+public class HTTPTaskManager extends FileBackedTasksManager {
+    private KVClient client;
+    private String uri;
+    private ObjectMapper mapper =
             new ObjectMapper().findAndRegisterModules().disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE);
 
 
@@ -72,7 +68,6 @@ public class HTTPTaskManager extends InMemoryTaskManager {
         }
 
         String history = client.load("history");
-        List<Integer> hist = new ArrayList<>();
         if (history != null) {
             try {
                 Fleet deserializeHistory = mapper.readValue(history, Fleet.class);
